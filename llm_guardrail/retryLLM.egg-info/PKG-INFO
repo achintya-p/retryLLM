@@ -1,0 +1,87 @@
+Metadata-Version: 2.4
+Name: retryLLM
+Version: 0.1.0
+Summary: LLM Output Validator + Auto-Retry Layer
+Home-page: https://github.com/achintya-p/retryLLM
+Author: Achintya Paningapalli
+Author-email: apaninga@berkeley.edu
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: openai>=1.0.0
+Requires-Dist: anthropic>=0.57.1
+Requires-Dist: google-generativeai>=0.8.5
+Requires-Dist: groq>=0.29.0
+Requires-Dist: python-dotenv>=0.19.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# LLM Guardrail
+
+A Python package that wraps LLM API calls with validation and auto-retry capabilities.
+
+## Features
+
+- Validates LLM outputs against specified formats (e.g., JSON)
+- Auto-retries with improved prompts on validation failures
+- Configurable retry strategies and validation rules
+- Detailed response metadata (retry count, status, reason)
+- Built-in logging support
+
+## Installation
+
+```bash
+pip install llm_guardrail
+```
+
+## Quick Start
+
+```python
+from llm_guardrail import safe_call
+
+# Set your OpenAI API key in environment variables
+# export OPENAI_API_KEY='your-api-key'
+
+result = safe_call(
+    prompt="List three colors in JSON format",
+    model="gpt-4",
+    validate="json",
+    max_retries=3
+)
+
+print(result)
+```
+
+Example output:
+```python
+{
+    "result": {"colors": ["red", "blue", "green"]},
+    "status": "success",
+    "retry_count": 0,
+    "reason": "Valid JSON response received"
+}
+```
+
+## Configuration
+
+### Validation Strategies
+- `json`: Validates JSON structure using `json.loads()`
+- More validators coming soon!
+
+### Retry Strategies
+- Default strategy improves prompts for better structured output
+- Configurable max retries
+- Custom retry strategies can be implemented
+
+## License
+
+MIT License
