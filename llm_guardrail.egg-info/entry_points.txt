@@ -1,0 +1,2 @@
+[console_scripts]
+retryLLM = llm_guardrail.cli:main
