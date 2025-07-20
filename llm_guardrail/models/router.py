@@ -19,9 +19,8 @@ class SmartRouter:
         
         # Available models and their weights
         self.models = {
-            "gemini-pro": 0.4,
-            "llama3-70b-8192": 0.3,
-            "mixtral-8x7b-32768": 0.3
+            "gemini-pro": 0.6,
+            "llama3-70b-8192": 0.4
         }
 
     def select_models(self, prompt: str) -> Tuple[str, List[str]]:
@@ -32,10 +31,7 @@ class SmartRouter:
         if self.google_api_key:
             available_models.append(("gemini-pro", self.models["gemini-pro"]))
         if self.groq_api_key:
-            available_models.extend([
-                ("llama3-70b-8192", self.models["llama3-70b-8192"]),
-                ("mixtral-8x7b-32768", self.models["mixtral-8x7b-32768"])
-            ])
+            available_models.append(("llama3-70b-8192", self.models["llama3-70b-8192"]))
         
         if not available_models:
             raise ValueError("No API keys configured. Please set GROQ_API_KEY and/or GOOGLE_API_KEY environment variables.")
@@ -54,7 +50,7 @@ class SmartRouter:
                     raise ValueError("GOOGLE_API_KEY not configured")
                 
                 # Configure and generate response
-                model = genai.GenerativeModel('models/gemini-2.5-flash')  # Using a different model
+                model = genai.GenerativeModel('gemini-pro')
                 response = model.generate_content(prompt)
                 
                 if response.text:
@@ -66,7 +62,7 @@ class SmartRouter:
                 else:
                     raise ValueError("Empty response from Gemini")
                     
-            elif model in ["llama3-70b-8192", "mixtral-8x7b-32768"]:
+            elif model == "llama3-70b-8192":
                 if not self.groq_api_key:
                     raise ValueError("GROQ_API_KEY not configured")
                     

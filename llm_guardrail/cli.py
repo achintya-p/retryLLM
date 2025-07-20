@@ -22,7 +22,7 @@ from llm_guardrail import safe_call
 from llm_guardrail.models.router import SmartRouter
 
 # Available models
-AVAILABLE_MODELS = ["gemini-pro", "llama3-70b-8192", "mixtral-8x7b-32768"]
+AVAILABLE_MODELS = ["gemini-pro", "llama3-70b-8192"]
 
 def main():
     # Load environment variables
